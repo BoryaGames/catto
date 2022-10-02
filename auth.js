@@ -55,7 +55,7 @@ module.exports = {
           throw error;
         }
         if (response.statusCode == 200) {
-          this.writeToken(JSON.parse(body));
+          this.writeToken(body.json());
           this.emit("token");
         }
       });
@@ -69,7 +69,7 @@ module.exports = {
             throw error;
           }
           if (response.statusCode == 200) {
-            this.user = JSON.parse(body);
+            this.user = body.json();
             this.user.tag = `${this.user.username}#${this.user.discriminator}`;
             this.user.getAvatar = () => {
               if (this.user.avatar) {
@@ -101,7 +101,7 @@ module.exports = {
             throw error;
           }
           if (response.statusCode == 200) {
-            this.guilds = JSON.parse(body);
+            this.guilds = body.json();
             res();
           } else {
             throw body;
@@ -121,7 +121,7 @@ module.exports = {
             throw error;
           }
           if (response.statusCode == 200) {
-            this.connections = JSON.parse(body);
+            this.connections = body.json();
             res();
           } else {
             throw body;
