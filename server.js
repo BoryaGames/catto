@@ -106,8 +106,7 @@ module.exports = class extends EventEmitter {
     return this;
   }
   static(folder) {
-    this.app.use(express.static(path.join(__dirname,folder)));
-    return this;
+    return this.use(express.static(path.join(__dirname,"..","..",folder)));
   }
   static fa(text) {
     return (req,res) => {
