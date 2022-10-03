@@ -139,7 +139,7 @@ module.exports = {
     get expired() {
       return (Date.now() >= this.expires.getTime());
     }
-    refresh() {
+    renew() {
       request.post({"url":"https://discord.com/api/oauth2/token","form":{
         "client_id": this.id,
         "client_secret": this.secret,
@@ -152,6 +152,21 @@ module.exports = {
         if (response.statusCode == 200) {
           this.writeToken(JSON.parse(body));
           this.emit("token");
+        }
+      });
+    }
+    remove() {
+      request.post({"url":"https://discord.com/api/oauth2/token/revoke","form":{
+        "client_id": this.id,
+        "client_secret": this.secret,
+        "token": this.accessToken
+      }},(error,response,body) => {
+        if (error) {
+          throw error;
+        }
+        if (response.statusCode == 200) {
+          this.writeToken({});
+          this.emit("remove");
         }
       });
     }
