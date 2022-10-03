@@ -70,8 +70,8 @@ var authclient = new catto.auth.client(server,["identify"],"12345678910","12345q
 if (!authclient.expired) {
   // Do your code
 } else {
-  // If user session is expired (7 days), you must refresh it, when it done it will emit "token" event and you must save new data
-  authclient.refresh();
+  // If user session is expired (7 days), you must renew it, when it done it will emit "token" event and you must save new data
+  authclient.renew();
 }
 ```
 ### Discord Authorization 3
@@ -118,5 +118,21 @@ authclient.on("token",async () => {
   await authclient.joinGuild("12345678910");
   // Done, user has added to that server!
 });
-
+```
+### Discord Authorization 5
+```js
+var catto = require("catto");
+var server = new catto.server("example.com");
+var authclient = new catto.auth.client(server,["identify"],"12345678910","12345qwerty",{
+  "accessToken": "12345qwerty",
+  "expire": 12345,
+  "refreshToken": "12345qwerty"
+});
+server.get("/logout",(req,res) => {
+  // If you want to logout user you can delete his token, it will emit "remove" event
+  authclient.remove();
+}).start();
+authclient.on("remove",() => {
+  // Done, token no more works.
+});
 ```
