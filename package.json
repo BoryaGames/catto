@@ -1,6 +1,6 @@
 {
   "name": "catto",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Utilites for discord authorization, requests, random, color console and more!",
   "main": "index.js",
   "repository": "BoryaGames/catto",
@@ -23,7 +23,10 @@
     "axios",
     "express",
     "server",
-    "app"
+    "app",
+    "oauth2",
+    "discord-api",
+    "api"
   ],
   "author": "cat1234",
   "license": "MIT",
