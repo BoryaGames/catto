@@ -1,4 +1,4 @@
-module.exports = {
+var mod = {
   "float": (min,max) => {
     return (Math.random() *(max -min) +min);
   },
@@ -12,3 +12,8 @@ module.exports = {
     return !Math.floor(Math.random() *2);
   }
 };
+if (typeof module !== "undefined") {
+  module.exports = mod;
+} else {
+  catto.random = mod;
+}

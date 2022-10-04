@@ -1,7 +1,11 @@
-var request = require("request");
-var events = require("events");
-var EventEmitter = events.EventEmitter;
-module.exports = {
+if (typeof require !== "undefined") {
+  var request = require("request");
+  var events = require("events");
+  var EventEmitter = events.EventEmitter;
+} else {
+  var EventEmitter = class {};
+}
+var mod = {
   "client": class extends EventEmitter {
     constructor(server,scopes,id,secret,options) {
       super();
@@ -205,3 +209,8 @@ module.exports = {
     }
   }
 };
+if (typeof module !== "undefined") {
+  module.exports = mod;
+} else {
+  catto.auth = mod;
+}

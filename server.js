@@ -1,15 +1,19 @@
-var express = require("express");
-var expressWs = require("express-ws");
-var events = require("events");
-var EventEmitter = events.EventEmitter;
-var http = require("http");
-var https = require("https");
-var fs = require("fs");
-var path = require("path");
-var bodyParser = require("body-parser");
-var urlencodedParser = bodyParser.urlencoded({"extended":!0});
-var jsonParser = bodyParser.json();
-module.exports = class extends EventEmitter {
+if (typeof require !== "undefined") {
+  var express = require("express");
+  var expressWs = require("express-ws");
+  var events = require("events");
+  var EventEmitter = events.EventEmitter;
+  var http = require("http");
+  var https = require("https");
+  var fs = require("fs");
+  var path = require("path");
+  var bodyParser = require("body-parser");
+  var urlencodedParser = bodyParser.urlencoded({"extended":!0});
+  var jsonParser = bodyParser.json();
+} else {
+  var EventEmitter = class {};
+}
+var mod = class extends EventEmitter {
   constructor(dom,port,ssl,cert,key,sslopts,usedef) {
     super();
     this.dom = dom;
@@ -17,7 +21,7 @@ module.exports = class extends EventEmitter {
     this.app = express();
     this.ssl = ssl;
     if (this.ssl) {
-      this.server = https.createServer(Object.assign(sslopts,{"cert":fs.readFileSync(this.cert,"utf8"),"key":fs.readFileSync(this.key,"utf8")}),this.app);
+      this.server = https.createServer(Object.assign(sslopts,{"cert":fs.readFileSync(path.join(__dirname,"..","..",this.cert),"utf8"),"key":fs.readFileSync(path.join(__dirname,"..","..",this.key),"utf8")}),this.app);
       this.cert = cert;
       this.key = key;
     } else {
@@ -114,3 +118,6 @@ module.exports = class extends EventEmitter {
     };
   }
 };
+if (typeof module !== "undefined") {
+  module.exports = mod;
+}
