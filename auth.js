@@ -65,7 +65,7 @@ var mod = {
       });
     }
     sync() {
-      return new Promise(res => {
+      return new Promise((res,rej) => {
         request.get({"url":`https://discord.com/api/v${this.apiv.toString()}/users/@me`,"headers":{
           "Authorization": `${this.tokenType} ${this.accessToken}`
         }},(error,response,body) => {
@@ -88,7 +88,7 @@ var mod = {
             };
             res();
           } else {
-            throw body;
+            rej(response,body);
           }
         });
       });
@@ -97,7 +97,7 @@ var mod = {
       if (!this.scopes.includes("guilds")) {
         throw `Missing scope "guilds".`;
       }
-      return new Promise(res => {
+      return new Promise((res,rej) => {
         request.get({"url":`https://discord.com/api/v${this.apiv.toString()}/users/@me/guilds`,"headers":{
           "Authorization": `${this.tokenType} ${this.accessToken}`
         }},(error,response,body) => {
@@ -108,7 +108,7 @@ var mod = {
             this.guilds = JSON.parse(body);
             res();
           } else {
-            throw body;
+            rej(response,body);
           }
         });
       });
@@ -117,7 +117,7 @@ var mod = {
       if (!this.scopes.includes("connections")) {
         throw `Missing scope "connections".`;
       }
-      return new Promise(res => {
+      return new Promise((res,rej) => {
         request.get({"url":`https://discord.com/api/v${this.apiv.toString()}/users/@me/connections`,"headers":{
           "Authorization": `${this.tokenType} ${this.accessToken}`
         }},(error,response,body) => {
@@ -128,7 +128,7 @@ var mod = {
             this.connections = JSON.parse(body);
             res();
           } else {
-            throw body;
+            rej(response,body);
           }
         });
       });
