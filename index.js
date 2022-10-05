@@ -1,4 +1,4 @@
-if (typeof require !== "undefined") {
+;dsrf;()if (typeof require !== "undefined") {
   var mod = {
     "server": require("./server.js"),
     "random": require("./random.js"),
