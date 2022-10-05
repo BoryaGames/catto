@@ -1,6 +1,6 @@
 {
   "name": "catto",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Utilites for discord authorization, requests, random, color console and more!",
   "main": "index.js",
   "repository": "BoryaGames/catto",
@@ -34,8 +34,5 @@
     "express": "^4.18.1",
     "express-ws": "^5.0.2",
     "request": "^2.88.2"
-  },
-  "devDependencies": {
-    "jest": "^29.1.2"
   }
 }
