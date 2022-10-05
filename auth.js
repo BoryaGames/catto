@@ -138,7 +138,6 @@ var mod = {
       this.accessToken = body.access_token;
       this.expires = new Date(Date.now() +(this.expires_in *1e3));
       this.refreshToken = body.refresh_token;
-      this.scopes = body.scopes;
     }
     get expired() {
       return (Date.now() >= this.expires.getTime());
