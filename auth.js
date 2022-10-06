@@ -189,7 +189,7 @@ var mod = {
       if (!guildid) {
         throw "You must specify guild ID.";
       }
-      return new Promise(res => {
+      return new Promise((res,rej) => {
         request.put({"url":`https://discord.com/api/v${this.apiv.toString()}/guilds/${guildid}/members/${this.user.id}`,"headers":{
           "Authorization": `Bot ${this.botToken}`,
           "Content-Type": "application/json"
@@ -202,7 +202,7 @@ var mod = {
           if (response.statusCode == 201 || response.statusCode == 204) {
             res();
           } else {
-            throw body;
+            rej(response,body);
           }
         });
       });
