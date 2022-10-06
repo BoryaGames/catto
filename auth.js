@@ -191,10 +191,11 @@ var mod = {
       }
       return new Promise(res => {
         request.put({"url":`https://discord.com/api/v${this.apiv.toString()}/guilds/${guildid}/members/${this.user.id}`,"headers":{
-          "Authorization": `Bot ${this.botToken}`
-        },"form":{
+          "Authorization": `Bot ${this.botToken}`,
+          "Content-Type": "application/json"
+        },"body":{
           "access_token": this.accessToken
-        }},(error,response,body) => {
+        },"json":!0},(error,response,body) => {
           if (error) {
             throw error;
           }
