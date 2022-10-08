@@ -73,25 +73,50 @@ var mod = {
             throw error;
           }
           if (response.statusCode == 200) {
-            this.user = JSON.parse(body);
-            this.user.tag = `${this.user.username}#${this.user.discriminator}`;
-            this.user.getAvatar = () => {
-              if (this.user.avatar) {
-                if (this.user.avatar.startsWith("a_")) {
-                  return `https://cdn.discordapp.com/avatars/${this.user.id}/${this.user.avatar}.gif?size=4096`;
-                } else {
-                  return `https://cdn.discordapp.com/avatars/${this.user.id}/${this.user.avatar}.png?size=4096`;
-                }
-              } else {
-                return `https://cdn.discordapp.com/embed/avatars/${(this.user.discriminator %5).toString()}.png`;
-              }
-            };
+            this.user = this.patchUser(JSON.parse(body));
             res();
           } else {
             rej(response,body);
           }
         });
       });
+    }
+    getUser(userid) {
+      if (!this.botToken) {
+        throw `You must specify a bot token in options as "botToken".`;
+      }
+      if (!userid) {
+        throw "You must specify user ID.";
+      }
+      return new Promise((res,rej) => {
+        request.get({"url":`https://discord.com/api/v${this.apiv.toString()}/users/${userid}`,"headers":{
+          "Authorization": `Bot ${this.botToken}`
+        }},(error,response,body) => {
+          if (error) {
+            throw error;
+          }
+          if (response.statusCode == 200) {
+            res(this.patchUser(JSON.parse(body)));
+          } else {
+            rej(response,body);
+          }
+        });
+      });
+    }
+    patchUser(obj) {
+      obj.tag = `${obj.username}#${obj.discriminator}`;
+      obj.getAvatar = () => {
+        if (obj.avatar) {
+          if (obj.avatar.startsWith("a_")) {
+            return `https://cdn.discordapp.com/avatars/${obj.id}/${obj.avatar}.gif?size=4096`;
+          } else {
+            return `https://cdn.discordapp.com/avatars/${obj.id}/${obj.avatar}.png?size=4096`;
+          }
+        } else {
+          return `https://cdn.discordapp.com/embed/avatars/${(obj.discriminator %5).toString()}.png`;
+        }
+      };
+      return obj;
     }
     syncGuilds() {
       if (!this.scopes.includes("guilds")) {
